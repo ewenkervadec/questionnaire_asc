@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire 5D-ASC – Version Française</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', Helvetica, Helvetica, Helvetica, Helvetica;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(0deg, #f5f5f5 0%, #ffffff 100%);
+            
+            min-height: 100vh;
+        }
+        .satoshi-title {
+    font-family: 'Satoshi', sans-serif;
+}
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            min-height: auto;
+            padding-bottom: 0rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            
+        }
+
+
+        
+        .header {
+            background-image: url('fond.png'); /* ← ton image ici */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border: 0.5px solid #ffffff;
+            border-radius: 50px 50px 50px 50px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .version-selector {
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .version-selector h2 {
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .version-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .version-btn {
+            background: white;
+            border: 2px solid #3a4651;
+            color: #3a4651;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .version-btn:hover, .version-btn.active {
+            background-image: url('bouton.png'); /* ← ton image ici */
+            border: 2px solid white;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            border: 0.5px solid #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #7c90e8, #7b589e);
+            height: 100%;
+            border-radius: 50px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .item-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #e4e6e8;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-question {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #3a4651;
+            line-height: 1.5;
+        }
+
+        .vas-container {
+            position: relative;
+            margin-top: 1rem ;
+        }
+
+        .vas-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .vas-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #7c90e8, #7b589e);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .vas-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.5);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .vas-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        .vas-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+}
+.vas-label.right {
+    text-align: right;
+}
+.vas-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+    color: #dee2e6;         /* Gris clair par défaut */
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.vas-value.active {
+    background-color: #abdbb9; /* Vert bootstrap */
+    color: white;
+    border-color: #90c49c;
+}
+.vas-value.saved {
+    background: #abdbb9;
+    color: #c3d7c9;
+    border-color: #90c49c;
+}
+.vas-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-btn.secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .nav-btn.secondary:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+        }
+
+        .completion-section {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .completion-section h2 {
+            color: #6eb798;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .completion-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #6c757d;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #acc8b9, #28ab74);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #687b71, #1b724e);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
+        }
+
+        .required-indicator {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .version-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .version-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="margin-bottom: 0.5rem;">
+                <span class="satoshi-title" style="
+                    display: inline-block;
+                    background: white;
+                    color: #343a40;
+                    border: 1px solid #dee2e6;
+                    border-radius: 50px;
+                    padding: 0.5rem 1rem;
+                    font-size: 2rem;
+                    font-weight: 700;">
+                    Questionnaire 5D – ASC
+                </span>
+            
+                <!-- Trois petits cercles décoratifs -->
+                <div style="
+                    display: flex;
+                    justify-content: center;
+                    gap: 1rem;
+                    margin: 2rem 0 0rem 0;">
+                    <span style="
+                        width: 15px;
+                        height: 15px;
+                        background: white;
+                        border: 1px solid #dee2e6;
+                        border-radius: 50%;
+                        display: inline-block;"></span>
+                    <span style="
+                        width: 15px;
+                        height: 15px;
+                        background: white;
+                        border: 1px solid #dee2e6;
+                        border-radius: 50%;
+                        display: inline-block;"></span>
+                    <span style="
+                        width: 15px;
+                        height: 15px;
+                        background: white;
+                        border: 1px solid #dee2e6;
+                        border-radius: 50%;
+                        display: inline-block;"></span>
+                </div>
+            
+                <span style="font-weight: normal; font-style: normal; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                    Version Française
+                </span>
+            </h1>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="section active" style="margin-bottom: 2rem;">
+                <div style="
+                    background: #f8f9fa;
+                    border: 0.5px solid #ffffff;
+            border-radius: 50px 50px 50px 50px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                    padding: 2rem;
+                    color: #2c3e50;
+                    font-size: 1rem;
+                    text-align: justify;
+                    line-height: 1.6;">
+                    
+                    <p>
+                        Ce site propose l’administration de l'<strong>échelle 5D-ASC</strong> (<em>Five-Dimensional Altered States of Consciousness</em>, Dittrich A., 1985) ainsi que de ses <strong>11 sous-échelles OAV</strong> (ou <em>11D-ASC</em>), dans leur <em>version française</em>.
+                    </p>
+                    <p><br>
+                        La traduction, l’adaptation et la validation psychométrique de cette version ont été réalisées par l’équipe <strong>PSYCOMADD</strong> (Psychiatrie, Comorbidités et Addictions) du CHU Paul Brousse, <strong>Assistance Publique - Hôpitaux de Paris</strong>.
+                    </p>
+                    
+                    <p><br>
+                        <strong>Confidentialité :</strong> Aucune donnée n’est collectée, transmise ou stockée par ce site. Vos réponses ne quittent jamais votre appareil. Un fichier Excel est généré localement à la fin du questionnaire.
+                    </p>
+                    <p>
+                        <strong>Usage :</strong> Cette version est proposée dans un cadre exploratoire, d’auto-évaluation ou de recherche. Elle ne constitue pas un outil de diagnostic clinique.
+                    </p>
+                    <p><br>
+                        <strong>Instructions :</strong> L’objectif de ce questionnaire est d’évaluer la modification de l’état de conscience lors de votre expérience. Pour cela, vous devez coter les différentes affirmations suivantes sur une échelle de 0 à 100 : 0 représentant une absence de modification de l’état de conscience par rapport à votre état de base (i.e. Non, pas plus que d’habitude) et 100 représentant une modification majeure de l’état de conscience par rapport à votre état de base (i.e. Oui, bien plus que d’habitude).
+                    </p>
+                    <p><br>
+                        Pour plus d'information sur le questionnaire, voir :
+                        <br>
+                        <strong>Kervadec et al., 2025.</strong> <em>Psychometric Validation of the French Version of the Five-Dimensional Altered States of Consciousness Questionnaire (5D-ASC) and Associated 11 OAV Subscales</em>. 
+                    </p>
+
+                    
+                </div>
+            </div>
+            <!-- Version Selection -->
+            <div id="versionSelection" class="section active">
+                <div class="version-selector" style="
+    background: #f8f9fa;
+    border: 0.5px solid #ffffff;
+    border-radius: 50px 50px 50px 50px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    color: #3a4651;
+    font-size: 1rem;
+    line-height: 1.6;">
+                    
+                    <h2 class="satoshi-title">Choisissez votre version :</h2>
+                    <div class="version-buttons">
+                        <button class="version-btn" onclick="selectVersion('5D', 94)">
+                            5D-ASC
+                            <br><small>Version complète - 94 items</small>
+                        </button>
+                        <button class="version-btn" onclick="selectVersion('11D', 42)">
+                            11D-ASC
+                            <br><small>Version courte - 42 items</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demographic Section -->
+            <div id="demographicSection" class="section">
+                <h2 style="margin-bottom: 1.5rem;">Informations socio-démographiques :</h2>
+                
+                <div class="form-group">
+                    <label for="age">Âge <span class="required-indicator">*</span></label>
+                    <input type="number" id="age" min="18" max="100" required>
+                    <div class="error-message" id="ageError">Veuillez saisir votre âge.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Genre <span class="required-indicator">*</span></label>
+                    <select id="gender" required>
+                        <option value="">Sélectionnez...</option>
+                        <option value="femme">Femme</option>
+                        <option value="homme">Homme</option>
+                        <option value="non-binaire">Non-binaire</option>
+                        <option value="autre">Autre</option>
+                        <option value="prefer-not-say">Préfère ne pas répondre</option>
+                    </select>
+                    <div class="error-message" id="genderError">Veuillez sélectionner votre genre.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="education">Niveau d'éducation</label>
+                    <select id="education">
+                        <option value="">Sélectionnez...</option>
+                        <option value="primaire">Éducation primaire</option>
+                        <option value="secondaire">Éducation secondaire</option>
+                        <option value="bac">Baccalauréat</option>
+                        <option value="bac+2">Bac+2</option>
+                        <option value="licence">Licence (Bac+3)</option>
+                        <option value="master">Master (Bac+5)</option>
+                        <option value="doctorat">Doctorat</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Avez-vous déjà vécu des états modifiés de conscience ?</label>
+                    <select id="experience">
+                        <option value="">Sélectionnez...</option>
+                        <option value="jamais">Jamais</option>
+                        <option value="rarement">Rarement</option>
+                        <option value="occasionnellement">Occasionnellement</option>
+                        <option value="regulierement">Régulièrement</option>
+                    </select>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-btn secondary" onclick="goToSection('versionSelection')">Retour</button>
+                    <button class="nav-btn" onclick="startQuestionnaire()">Commencer le questionnaire</button>
+                </div>
+            </div>
+
+            <!-- Items Section -->
+            <div id="itemsSection" class="section">
+                <div style="
+    background: #f0f4f8;
+    border: 1px solid #c8ddf2;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    color: #3a4651;
+    text-align: justify;">
+    <strong>ℹ️</strong> Pour chaque item, vous devez ajuster le curseur pour enregistrer votre réponse. 
+    Lorsque la valeur affichée devient <strong style="color: #90c49c; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">verte</strong>, cela signifie que votre réponse est enregistrée.
+    Il est toujours possible de revenir en arrière ou de modifier vos réponses. 
+</div>
+                <div id="itemsContainer"></div>
+                
+                <div class="navigation">
+                    <button class="nav-btn secondary" onclick="previousItems()">Précédent</button>
+                    <span id="itemsProgress">Questions 1-5 sur X</span>
+                    <button class="nav-btn" onclick="nextItems()">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Completion Section -->
+            <div id="completionSection" class="section">
+                <div class="completion-section">
+                    <h2>– Questionnaire terminé – </h2>
+                    <p>Merci pour votre participation. Vous pouvez désormais télécharger un fichier récapitulatif, comprenant une synthèse de vos réponses ainsi que les scores moyens calculés pour chaque dimension évaluée. </p>
+                    <button class="download-btn" onclick="downloadResults()">
+                        📄 Télécharger les résultats
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration globale
+        let currentVersion = '';
+        let totalItems = 0;
+        let currentItemIndex = 0;
+        let itemsPerPage = 5;
+        let responses = {};
+
+        // Items du questionnaire 5D-ASC (94 items)
+        const items5D = [
+            {id: 1, text: "J'ai senti que j'étais dans un autre monde merveilleux.", dimension: "OBN"},
+            {id: 2, text: "Mes pensées et mes actions ont été ralenties.", dimension: "VIR"},
+            {id: 3, text: "Les sensations corporelles ont été très agréables.", dimension: "OBN"},
+            {id: 4, text: "J'ai entendu des mots isolés sans savoir d'où ils venaient.", dimension: "AUA"},
+            {id: 5, text: "J'ai entendu des sons et des tonalités sans savoir d'où ils venaient.", dimension: "AUA"},
+            {id: 6, text: "J'ai eu l'impression d'être gagné par des forces obscures.", dimension: "AED"},
+            {id: 7, text: "J'ai vu des choses que je savais ne pas être réelles.", dimension: "VRS"},
+            {id: 8, text: "Je me suis senti comme une marionnette.", dimension: "AED"},
+            {id: 9, text: "J'ai eu le sentiment d'être connecté à un pouvoir supérieur.", dimension: "OBN"},
+            {id: 10, text: "Je me suis senti fatigué.", dimension: "VIR"},
+            {id: 11, text: "Une mélodie que je devais constamment répéter m'est venue.", dimension: "AUA"},
+            {id: 12, text: "J'ai ressenti un plaisir sans limites.", dimension: "OBN"},
+            {id: 13, text: "Des bruits insignifiants ont ressemblé à de vrais mots ou des phrases.", dimension: "AUA"},
+            {id: 14, text: "J'ai vu des motifs réguliers dans le noir complet ou les yeux fermés.", dimension: "VRS"},
+            {id: 15, text: "Je me suis senti ivre.", dimension: "VIR"},
+            {id: 16, text: "J'ai senti que j'étais en train d'être transformé pour toujours d'une manière miraculeuse.", dimension: "OBN"},
+            {id: 17, text: "J'ai senti que j'étais à la limite de l'inconscience.", dimension: "VIR"},
+            {id: 18, text: "Tout a semblé s'unir pour ne faire qu'un.", dimension: "OBN"},
+            {id: 19, text: "J'ai entendu mes pensées comme si je les avais prononcées à voix haute.", dimension: "AUA"},
+            {id: 20, text: "Les bruits ont semblé influencer ce que je voyais.", dimension: "VRS"},
+            {id: 21, text: "Je me suis senti tourmenté.", dimension: "AED"},
+            {id: 22, text: "J'ai vu des couleurs face à moi dans le noir total ou avec les yeux fermés.", dimension: "VRS"},
+            {id: 23, text: "Les formes des choses ont semblé changer avec les sons et les bruits.", dimension: "VRS"},
+            {id: 24, text: "J'ai perçu tout comme flou, comme à travers une sorte de brouillard.", dimension: "VIR"},
+            {id: 25, text: "Une voix a commenté tout ce que je pensais, bien que personne ne soit là.", dimension: "AUA"},
+            {id: 26, text: "Il m'a semblé ne plus avoir de corps.", dimension: "OBN"},
+            {id: 27, text: "J'ai eu des difficultés à prendre même la plus petite décision.", dimension: "AED"},
+            {id: 28, text: "Les choses de tous les jours ont eu une signification particulière.", dimension: "VRS"},
+            {id: 29, text: "Je me suis senti somnolent.", dimension: "VIR"},
+            {id: 30, text: "J'ai entendu des phrases complètes sans savoir d'où elles venaient.", dimension: "AUA"},
+            {id: 31, text: "Les choses autour de moi ont eu un nouveau sens étrange pour moi.", dimension: "VRS"},
+            {id: 32, text: "J'ai eu peur que l'état dans lequel j'étais dure pour toujours.", dimension: "AED"},
+            {id: 33, text: "J'ai vu des lumières ou des flashs lumineux dans le noir total ou les yeux fermés.", dimension: "VRS"},
+            {id: 34, text: "Il m'a semblé que mon environnement et moi ne faisions qu'un.", dimension: "OBN"},
+            {id: 35, text: "Les soucis et les angoisses de la vie quotidienne ont semblé sans importance.", dimension: "OBN"},
+            {id: 36, text: "Ma perception du temps et de l'espace a été modifiée comme si je rêvais.", dimension: "OBN"},
+            {id: 37, text: "Ma perception a été floue.", dimension: "VIR"},
+            {id: 38, text: "J'ai eu des difficultés à distinguer les choses importantes de celles sans importance.", dimension: "AED"},
+            {id: 39, text: "J'ai vu des scènes défiler dans le noir total ou avec mes yeux fermés.", dimension: "VRS"},
+            {id: 40, text: "J'ai ressenti des pouvoirs extraordinaires en moi.", dimension: "OBN"},
+            {id: 41, text: "J'ai vécu un sentiment d'éternité.", dimension: "OBN"},
+            {id: 42, text: "Les conflits et les contradictions ont semblé s'évanouir.", dimension: "OBN"},
+            {id: 43, text: "J'ai eu peur sans être capable de dire exactement pourquoi.", dimension: "AED"},
+            {id: 44, text: "Tout m'est apparu déformé de manière terrifiante.", dimension: "AED"},
+            {id: 45, text: "Le monde m'a semblé au-delà du bien et du mal.", dimension: "OBN"},
+            {id: 46, text: "J'ai perçu mon environnement comme étrange et bizarre.", dimension: "AED"},
+            {id: 47, text: "Je me suis senti comme paralysé.", dimension: "AED"},
+            {id: 48, text: "J'ai entendu de la musique sans savoir d'où elle venait.", dimension: "AUA"},
+            {id: 49, text: "J'ai entendu quelque chose faiblement que je n'ai pas pu identifier.", dimension: "AUA"},
+            {id: 50, text: "J'ai eu des ressentis très profonds.", dimension: "OBN"},
+            {id: 51, text: "Je me suis senti engourdi.", dimension: "VIR"},
+            {id: 52, text: "J'ai ressenti le passé, le présent et le futur comme un tout.", dimension: "OBN"},
+            {id: 53, text: "J'ai ressenti un vide insupportable.", dimension: "AED"},
+            {id: 54, text: "Les objets autour de moi m'évoquaient bien plus d'émotions que d'habitude.", dimension: "VRS"},
+            {id: 55, text: "A partir d'un bruit initialement diffus et que je ne pouvais pas identifier comme réel ont évolué des sons et des tonalités clairs.", dimension: "AUA"},
+            {id: 56, text: "Je me suis senti menacé.", dimension: "AED"},
+            {id: 57, text: "Beaucoup de choses me sont apparues d'une beauté à couper le souffle.", dimension: "OBN"},
+            {id: 58, text: "Des choses que je pensais oubliées depuis longtemps me sont venues à l'esprit.", dimension: "VRS"},
+            {id: 59, text: "J'ai été comme je me sens habituellement juste avant de m'endormir.", dimension: "VIR"},
+            {id: 60, text: "J'ai ressenti mon corps engourdi, sans vie et/ou étranger à moi-même.", dimension: "AED"},
+            {id: 61, text: "Je me suis senti comme à moitié endormi.", dimension: "VIR"},
+            {id: 62, text: "J'ai eu l'impression d'être en dehors de mon corps.", dimension: "OBN"},
+            {id: 63, text: "Ça a été comme si je flottais.", dimension: "OBN"},
+            {id: 64, text: "Je me suis senti isolé de tout et de tout le monde.", dimension: "AED"},
+            {id: 65, text: "J'ai entendu des voix qui ne parvenaient pas de l'environnement comme habituellement.", dimension: "AUA"},
+            {id: 66, text: "J'ai entendu quelque chose comme un bourdonnement, un sifflement ou un fredonnement sans en reconnaître la cause.", dimension: "AUA"},
+            {id: 67, text: "J'ai été incapable d'achever une pensée, ma pensée s'est interrompue à plusieurs reprises.", dimension: "AED"},
+            {id: 68, text: "J'ai senti que j'étais sur le point de m'endormir.", dimension: "VIR"},
+            {id: 69, text: "J'ai gagné en clarté et fait des connexions entre des sujets et des concepts qui me rendaient perplexe avant.", dimension: "OBN"},
+            {id: 70, text: "Beaucoup de choses m'ont semblé incroyablement drôles.", dimension: "VRS"},
+            {id: 71, text: "Les limites entre mon environnement et moi ont semblé s'estomper.", dimension: "OBN"},
+            {id: 72, text: "J'ai pu voir des images de mon passé ou de mon imagination de manière extrêmement claire.", dimension: "VRS"},
+            {id: 73, text: "Je me suis senti totalement libre et délivré de toutes obligations.", dimension: "OBN"},
+            {id: 74, text: "J'ai entendu des bruits diffus sans savoir d'où ils venaient.", dimension: "AUA"},
+            {id: 75, text: "La couleur des choses a semblé altérée par les sons ou les bruits.", dimension: "VRS"},
+            {id: 76, text: "Les sons et les bruits ont été plus faibles que d'habitude.", dimension: "AUA"},
+            {id: 77, text: "J'ai eu des pensées très originales.", dimension: "VRS"},
+            {id: 78, text: "J'ai eu l'impression de ne plus avoir ma propre volonté.", dimension: "AED"},
+            {id: 79, text: "J'ai eu peur de perdre le contrôle de moi-même.", dimension: "AED"},
+            {id: 80, text: "Je suis resté figé dans une position très peu naturelle pendant une longue période.", dimension: "AED"},
+            {id: 81, text: "J'ai vécu une sorte d'émerveillement.", dimension: "OBN"},
+            {id: 82, text: "Mon imagination a été très vive.", dimension: "VRS"},
+            {id: 83, text: "Les choses dans mon environnement ont semblé plus petites ou plus grandes.", dimension: "VRS"},
+            {id: 84, text: "Je me suis senti épuisé.", dimension: "VIR"},
+            {id: 85, text: "Le temps passait lentement et de manière angoissante.", dimension: "AED"},
+            {id: 86, text: "J'ai vécu une grande paix intérieure.", dimension: "OBN"},
+            {id: 87, text: "Tout autour de moi a semblé animé de vie.", dimension: "OBN"},
+            {id: 88, text: "Tout se passait si vite que je n'ai pas pu tout suivre.", dimension: "AED"},
+            {id: 89, text: "J'ai eu l'impression que quelque chose de terrible allait arriver.", dimension: "AED"},
+            {id: 90, text: "J'ai pu me souvenir de certains évènements de manière très claire.", dimension: "VRS"},
+            {id: 91, text: "J'ai vécu l'amour universel.", dimension: "OBN"},
+            {id: 92, text: "Il y a eu des sons autour de moi qui, à mon avis, n'étaient probablement pas réels.", dimension: "AUA"},
+            {id: 93, text: "J'ai entendu un tic-tac, un coup, une sonnerie ou un cliquetis sans pouvoir identifier la cause.", dimension: "AUA"},
+            {id: 94, text: "Mon expérience a eu des aspects religieux.", dimension: "OBN"}
+        ];
+
+        // Items pour la version 11D-ASC (42 items sélectionnés)
+        const items11D = [
+            // Anxiété
+            {id: 32, text: "J'ai eu peur que l'état dans lequel j'étais dure pour toujours.", subscale: "Anxiété"},
+            {id: 44, text: "Tout m'est apparu déformé de manière terrifiante.", subscale: "Anxiété"},
+            {id: 46, text: "J'ai perçu mon environnement comme étrange et bizarre.", subscale: "Anxiété"},
+            {id: 89, text: "J'ai eu l'impression que quelque chose de terrible allait arriver.", subscale: "Anxiété"},
+            {id: 43, text: "J'ai eu peur sans être capable de dire exactement pourquoi.", subscale: "Anxiété"},
+            {id: 56, text: "Je me suis senti menacé.", subscale: "Anxiété"},
+            
+            // Perte du contrôle et de la cognition
+            {id: 27, text: "J'ai eu des difficultés à prendre même la plus petite décision.", subscale: "Perte du contrôle"},
+            {id: 38, text: "J'ai eu des difficultés à distinguer les choses importantes de celles sans importance.", subscale: "Perte du contrôle"},
+            {id: 47, text: "Je me suis senti comme paralysé.", subscale: "Perte du contrôle"},
+            {id: 67, text: "J'ai été incapable d'achever une pensée, ma pensée s'est interrompue à plusieurs reprises.", subscale: "Perte du contrôle"},
+            {id: 64, text: "Je me suis senti isolé de tout et de tout le monde.", subscale: "Perte du contrôle"},
+            {id: 8, text: "Je me suis senti comme une marionnette.", subscale: "Perte du contrôle"},
+            {id: 78, text: "J'ai eu l'impression de ne plus avoir ma propre volonté.", subscale: "Perte du contrôle"},
+            
+            // Sortie de corps
+            {id: 63, text: "Ça a été comme si je flottais.", subscale: "Sortie de corps"},
+            {id: 26, text: "Il m'a semblé ne plus avoir de corps.", subscale: "Sortie de corps"},
+            {id: 62, text: "J'ai eu l'impression d'être en dehors de mon corps.", subscale: "Sortie de corps"},
+            
+            // Synesthésie audiovisuelle
+            {id: 20, text: "Les bruits ont semblé influencer ce que je voyais.", subscale: "Synesthésie audiovisuelle"},
+            {id: 23, text: "Les formes des choses ont semblé changer avec les sons et les bruits.", subscale: "Synesthésie audiovisuelle"},
+            {id: 75, text: "La couleur des choses a semblé altérée par les sons ou les bruits.", subscale: "Synesthésie audiovisuelle"},
+            
+            // Altération élément visuel
+            {id: 33, text: "J'ai vu des lumières ou des flashs lumineux dans le noir total ou les yeux fermés.", subscale: "Altération visuelle"},
+            {id: 14, text: "J'ai vu des motifs réguliers dans le noir complet ou les yeux fermés.", subscale: "Altération visuelle"},
+            {id: 22, text: "J'ai vu des couleurs face à moi dans le noir total ou avec les yeux fermés.", subscale: "Altération visuelle"},
+            
+            // Vivacité
+            {id: 82, text: "Mon imagination a été très vive.", subscale: "Vivacité"},
+            {id: 39, text: "J'ai vu des scènes défiler dans le noir total ou avec mes yeux fermés.", subscale: "Vivacité"},
+            {id: 72, text: "J'ai pu voir des images de mon passé ou de mon imagination de manière extrêmement claire.", subscale: "Vivacité"},
+            
+            // Sentiment d'unité
+            {id: 18, text: "Tout a semblé s'unir pour ne faire qu'un.", subscale: "Sentiment d'unité"},
+            {id: 34, text: "Il m'a semblé que mon environnement et moi ne faisions qu'un.", subscale: "Sentiment d'unité"},
+            {id: 41, text: "J'ai vécu un sentiment d'éternité.", subscale: "Sentiment d'unité"},
+            {id: 42, text: "Les conflits et les contradictions ont semblé s'évanouir.", subscale: "Sentiment d'unité"},
+            {id: 52, text: "J'ai ressenti le passé, le présent et le futur comme un tout.", subscale: "Sentiment d'unité"},
+            
+            // Expérience spirituelle
+            {id: 9, text: "J'ai eu le sentiment d'être connecté à un pouvoir supérieur.", subscale: "Expérience spirituelle"},
+            {id: 81, text: "J'ai vécu une sorte d'émerveillement.", subscale: "Expérience spirituelle"},
+            {id: 94, text: "Mon expérience a eu des aspects religieux.", subscale: "Expérience spirituelle"},
+            
+            // Perspicacité
+            {id: 50, text: "J'ai eu des ressentis très profonds.", subscale: "Perspicacité"},
+            {id: 69, text: "J'ai gagné en clarté et fait des connexions entre des sujets et des concepts qui me rendaient perplexe avant.", subscale: "Perspicacité"},
+            {id: 77, text: "J'ai eu des pensées très originales.", subscale: "Perspicacité"},
+            
+            // Plénitude
+            {id: 86, text: "J'ai vécu une grande paix intérieure.", subscale: "Plénitude"},
+            {id: 91, text: "J'ai vécu l'amour universel.", subscale: "Plénitude"},
+            {id: 12, text: "J'ai ressenti un plaisir sans limites.", subscale: "Plénitude"},
+            
+            // Changement des perceptions
+            {id: 54, text: "Les objets autour de moi m'évoquaient bien plus d'émotions que d'habitude.", subscale: "Changement des perceptions"},
+            {id: 28, text: "Les choses de tous les jours ont eu une signification particulière.", subscale: "Changement des perceptions"},
+            {id: 31, text: "Les choses autour de moi ont eu un nouveau sens étrange pour moi.", subscale: "Changement des perceptions"}
+        ];
+
+        function selectVersion(version, itemCount) {
+            currentVersion = version;
+            totalItems = itemCount;
+            
+            // Mise à jour visuelle des boutons
+            document.querySelectorAll('.version-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Attendre un peu pour l'effet visuel
+            setTimeout(() => {
+                goToSection('demographicSection');
+            }, 300);
+        }
+
+        function goToSection(sectionId) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Afficher la section demandée
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Mise à jour de la barre de progression
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const sections = ['versionSelection', 'demographicSection', 'itemsSection', 'completionSection'];
+            const currentSectionIndex = sections.findIndex(section => 
+                document.getElementById(section).classList.contains('active')
+            );
+            
+            let progress = 0;
+            if (currentSectionIndex === 1) progress = 25; // Démographique
+            else if (currentSectionIndex === 2) {
+                // Items section - calculer basé sur les items complétés
+                const completedItems = Object.keys(responses).filter(key => key.startsWith('item_')).length;
+                progress = 25 + (completedItems / totalItems * 65); // 65% pour les items
+            }
+            else if (currentSectionIndex === 3) progress = 100; // Terminé
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function validateDemographics() {
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            
+            let isValid = true;
+            
+            // Validation âge
+            if (!age || age < 18 || age > 100) {
+                document.getElementById('ageError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('ageError').style.display = 'none';
+            }
+            
+            // Validation genre
+            if (!gender) {
+                document.getElementById('genderError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('genderError').style.display = 'none';
+            }
+            
+            return isValid;
+        }
+
+        function startQuestionnaire() {
+            if (!validateDemographics()) {
+                return;
+            }
+            
+            // Sauvegarder les données démographiques
+            responses.age = document.getElementById('age').value;
+            responses.gender = document.getElementById('gender').value;
+            responses.education = document.getElementById('education').value;
+            responses.experience = document.getElementById('experience').value;
+            responses.version = currentVersion;
+            responses.totalItems = totalItems;
+            
+            // Initialiser les items
+            currentItemIndex = 0;
+            displayItems();
+            goToSection('itemsSection');
+        }
+
+        function displayItems() {
+            const container = document.getElementById('itemsContainer');
+            const items = currentVersion === '5D' ? items5D : items11D;
+            
+            // Calculer les items à afficher
+            const startIndex = currentItemIndex;
+            const endIndex = Math.min(startIndex + itemsPerPage, items.length);
+            const currentItems = items.slice(startIndex, endIndex);
+            
+            // Générer le HTML
+            let html = '';
+            currentItems.forEach((item, index) => {
+                const actualIndex = startIndex + index;
+                const subscaleInfo = item.subscale ? `<small style="color: #6c757d; font-style: italic;">Dimension: ${item.subscale}</small><br><br>` : 
+                                    item.dimension ? `<small style="color: #6c757d; font-style: italic;">Dimension: ${item.dimension}</small><br><br>` : '';
+                
+                                    html += `
+    <div class="item-container">
+        <div class="item-question">
+            <!-- <strong>Question ${actualIndex + 1}/${items.length}</strong><br> -->
+            <!-- ${subscaleInfo} -->
+            ${item.text}
+        </div>
+
+        <div class="vas-container">
+            <!-- Barre VAS -->
+            <input type="range" 
+                    class="vas-slider" 
+                    id="item_${item.id}" 
+                    min="0" 
+                    max="100" 
+                    value="${responses['item_' + item.id] || 0}"
+                    oninput="updateVasValue(${item.id}, this.value)">
+            
+            <!-- Légendes et valeur sur la même ligne -->
+            <div class="vas-row">
+                <span class="vas-label left">Non, pas plus que d'habitude<br><small>(0)</small></span>
+                <div class="vas-value" id="value_${item.id}">
+                    ${responses['item_' + item.id] || 0}
+                </div>
+                <span class="vas-label right">Oui, bien plus que d'habitude<br><small>(100)</small></span>
+            </div>
+        </div>
+    </div>
+`;
+            });
+            
+            container.innerHTML = html;
+            
+            // Mise à jour du compteur de progression
+            const progress = document.getElementById('itemsProgress');
+            progress.textContent = `Questions ${startIndex + 1}-${endIndex} sur ${items.length}`;
+            
+            // Mise à jour des boutons de navigation
+            const prevBtn = document.querySelector('.navigation .nav-btn.secondary');
+            const nextBtn = document.querySelector('.navigation .nav-btn:not(.secondary)');
+            
+            prevBtn.disabled = startIndex === 0;
+            
+            if (endIndex >= items.length) {
+                nextBtn.textContent = 'Terminer';
+                nextBtn.onclick = finishQuestionnaire;
+            } else {
+                nextBtn.textContent = 'Suivant';
+                nextBtn.onclick = nextItems;
+            }
+            
+            updateProgressBar();
+        }
+
+        function updateVasValue(id, value) {
+    const valueElement = document.getElementById(`value_${id}`);
+    valueElement.textContent = value;
+    valueElement.classList.add('active');
+}
+
+        function previousItems() {
+            if (currentItemIndex > 0) {
+                currentItemIndex = Math.max(0, currentItemIndex - itemsPerPage);
+                displayItems();
+            } else {
+                goToSection('demographicSection');
+            }
+        }
+
+        function nextItems() {
+            const items = currentVersion === '5D' ? items5D : items11D;
+            currentItemIndex = Math.min(currentItemIndex + itemsPerPage, items.length);
+            
+            if (currentItemIndex >= items.length) {
+                finishQuestionnaire();
+            } else {
+                displayItems();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function finishQuestionnaire() {
+            const items = currentVersion === '5D' ? items5D : items11D;
+            
+            // Vérifier que toutes les questions ont une réponse ET que les sliders ont été touchés
+const missingResponses = items.filter(item => {
+    const valueElement = document.getElementById('value_' + item.id);
+    return !valueElement || !valueElement.classList.contains('saved');
+});
+
+if (missingResponses.length > 0) {
+    alert(`Il manque ${missingResponses.length} réponse(s). Veuillez ajuster tous les curseurs pour enregistrer vos réponses (la valeur doit devenir verte).`);
+    return;
+}
+            responses.completionTime = new Date().toISOString();
+            goToSection('completionSection');
+        }
+        function downloadResults() {
+    try {
+        const items = currentVersion === '5D' ? items5D : items11D;
+
+        // Calculer les moyennes par dimension/subscale
+        const dimensionScores = {};
+        let totalScore = 0;
+        let itemCount = 0;
+
+        items.forEach(item => {
+            const score = responses['item_' + item.id];
+            const dimension = currentVersion === '11D' ? item.subscale : item.dimension;
+
+            if (!dimensionScores[dimension]) {
+                dimensionScores[dimension] = { total: 0, count: 0 };
+            }
+
+            dimensionScores[dimension].total += score;
+            dimensionScores[dimension].count += 1;
+            totalScore += score;
+            itemCount += 1;
+        });
+
+        // Calculer les moyennes
+        const dimensionAverages = {};
+        for (const dimension in dimensionScores) {
+            dimensionAverages[dimension] = (dimensionScores[dimension].total / dimensionScores[dimension].count).toFixed(2);
+        }
+        const overallAverage = (totalScore / itemCount).toFixed(2);
+
+        // Générer l'ID et la date
+        const participantId = 'P_' + Date.now();
+        const dateCompletion = new Date().toLocaleString('fr-FR');
+
+        // Créer le workbook
+        const workbook = XLSX.utils.book_new();
+
+        // FEUILLE 1 : Données détaillées (format long)
+        const detailedData = items.map((item, index) => ({
+            'ID Participant': participantId,
+            'Version': currentVersion + '-ASC',
+            'Numéro Item': item.id,
+            'Texte Item': item.text,
+            'Dimension': currentVersion === '11D' ? item.subscale : item.dimension,
+            'Valeur': responses['item_' + item.id] ?? ''
+        }));
+
+        const worksheet1 = XLSX.utils.json_to_sheet(detailedData);
+        worksheet1['!cols'] = [
+            { wch: 18 }, // ID Participant
+            { wch: 12 }, // Version
+            { wch: 12 }, // Numéro Item
+            { wch: 60 }, // Texte Item
+            { wch: 25 }, // Dimension
+            { wch: 10 }  // Valeur
+        ];
+        XLSX.utils.book_append_sheet(workbook, worksheet1, 'Donnees_Detaillees');
+
+        // FEUILLE 2 : Moyennes par dimension
+        const summaryData = [];
+        summaryData.push(['Participant_ID', 'Version', 'Dimension_Subscale', 'Moyenne', 'Nombre_Items']);
+        for (const dimension in dimensionAverages) {
+            summaryData.push([
+                participantId,
+                currentVersion + '-ASC',
+                dimension,
+                parseFloat(dimensionAverages[dimension]),
+                dimensionScores[dimension].count
+            ]);
+        }
+        summaryData.push([
+            participantId,
+            currentVersion + '-ASC',
+            'TOTAL',
+            parseFloat(overallAverage),
+            itemCount
+        ]);
+
+        const worksheet2 = XLSX.utils.aoa_to_sheet(summaryData);
+        worksheet2['!cols'] = [
+            { wch: 15 },
+            { wch: 12 },
+            { wch: 25 },
+            { wch: 12 },
+            { wch: 15 }
+        ];
+        XLSX.utils.book_append_sheet(workbook, worksheet2, 'Moyennes_Dimensions');
+
+        // FEUILLE 3 : Résumé participant
+        const participantSummary = [];
+        participantSummary.push(['Informations Participant']);
+        participantSummary.push(['']);
+        participantSummary.push(['ID Participant', participantId]);
+        participantSummary.push(['Version', currentVersion + '-ASC']);
+        participantSummary.push(['Âge', responses.age]);
+        participantSummary.push(['Genre', responses.gender]);
+        participantSummary.push(['Éducation', responses.education || 'Non renseigné']);
+        participantSummary.push(['Expérience EMC', responses.experience || 'Non renseigné']);
+        participantSummary.push(['Date de passation', dateCompletion]);
+        participantSummary.push(['']);
+        participantSummary.push(['Résultats']);
+        participantSummary.push(['']);
+        participantSummary.push(['Dimension/Sous-échelle', 'Moyenne', 'Items']);
+        const sortedDimensions = Object.keys(dimensionAverages).sort();
+        sortedDimensions.forEach(dimension => {
+            participantSummary.push([
+                dimension,
+                parseFloat(dimensionAverages[dimension]),
+                dimensionScores[dimension].count
+            ]);
+        });
+        participantSummary.push(['']);
+        participantSummary.push(['MOYENNE TOTALE', parseFloat(overallAverage), itemCount]);
+
+        const worksheet3 = XLSX.utils.aoa_to_sheet(participantSummary);
+        worksheet3['!cols'] = [
+            { wch: 25 },
+            { wch: 15 },
+            { wch: 10 }
+        ];
+        XLSX.utils.book_append_sheet(workbook, worksheet3, 'Resume_Participant');
+
+        // Télécharger le fichier
+        const fileName = `Resultats_${currentVersion}-ASC_${participantId}_${new Date().toISOString().split('T')[0]}.xlsx`;
+        XLSX.writeFile(workbook, fileName);
+
+        // Message de confirmation
+        setTimeout(() => {
+            let summaryText = `📨 Fichier téléchargé avec succès !\n\n`;
+            summaryText += `📑 Résumé de vos résultats :\n`;
+            summaryText += `• Moyenne générale : ${overallAverage}/100\n`;
+            summaryText += `• Version : ${currentVersion}-ASC (${itemCount} items)\n\n`;
+            summaryText += `Le fichier Excel contient 3 onglets :\n`;
+            summaryText += `• Données détaillées\n`;
+            summaryText += `• Moyennes par dimension\n`;
+            summaryText += `• Résumé participant\n\n`;
+            summaryText += `Merci de votre participation !`;
+
+            alert(summaryText);
+        }, 500);
+
+    } catch (error) {
+        console.error('Erreur lors du téléchargement:', error);
+        alert('❌ Erreur lors du téléchargement. Veuillez réessayer.');
+    }
+}
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressBar();
+        });
+    </script>
+<footer style="
+font-size: 0.8rem;
+font-style: italic;
+color: #6c757d;
+text-align: center;
+padding: 1rem 2rem;
+margin-top: 3rem;">
+© 2025 — Ewen KERVADEC 
+<br>
+Développé pour un usage académique et scientifique.   
+<br>
+Hébergement statique, sans collecte ni traitement automatisé de données personnelles.
+</footer>    
+</body>
+</html>
