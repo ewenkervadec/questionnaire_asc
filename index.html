@@ -24,31 +24,44 @@
         .satoshi-title {
     font-family: 'Satoshi', sans-serif;
 }
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            background: white;
-            min-height: auto;
-            padding-bottom: 0rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border-radius: 50px;
-            
-        }
+.container {
+    max-width: 800px;
+    margin: 4rem auto;
+    background: white;
+    min-height: auto;
+    padding: 2rem; /* padding intérieur sur tous les côtés */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+}
+
+/* Ajustement spécifique pour les petits écrans */
+@media (max-width: 768px) {
+    .container {
+        margin: 2rem 1rem; /* 2rem en haut/bas, 1rem à gauche/droite */
+        padding: 1.5rem;
+    }
+}
 
 
-        
         .header {
-            background-image: url('fond.png'); /* ← ton image ici */
-    background-size: cover;
+    background-image: url('fond.png');
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            border: 0.5px solid #ffffff;
-            border-radius: 50px 50px 50px 50px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
+
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    border: 0.5px solid #ffffff;
+    border-radius: 50px 50px 50px 50px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .header {
+        background-size: cover;
+    }
+}
 
         .header h1 {
             font-size: 2.5rem;
@@ -97,14 +110,24 @@
             transition: all 0.3s ease;
             min-width: 200px;
         }
-
         .version-btn:hover, .version-btn.active {
-            background-image: url('bouton.png'); /* ← ton image ici */
-            border: 2px solid white;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
+    background-image: url('bouton.png'); /* ← ton image ici */
+    background-size: 100% 100%; /* Étirement total */
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: 2px solid white;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Optionnel : pour les petits écrans, utilise "cover" si nécessaire */
+@media (max-width: 768px) {
+    .version-btn:hover, .version-btn.active {
+        background-size: cover;
+    }
+}
 
         .progress-bar {
             background: #e9ecef;
@@ -254,7 +277,7 @@
 }
 .vas-value.saved {
     background: #abdbb9;
-    color: #c3d7c9;
+    color: #ffffff;
     border-color: #90c49c;
 }
 .vas-row {
@@ -433,7 +456,7 @@
                 </div>
             
                 <span style="font-weight: normal; font-style: normal; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
-                    Version Française
+                    Échelle à 5 Dimensions pour États Altérés de Conscience <br>
                 </span>
             </h1>
         </div>
@@ -455,10 +478,10 @@
                     line-height: 1.6;">
                     
                     <p>
-                        Ce site propose l’administration de l'<strong>échelle 5D-ASC</strong> (<em>Five-Dimensional Altered States of Consciousness</em>, Dittrich A., 1985) ainsi que de ses <strong>11 sous-échelles OAV</strong> (ou <em>11D-ASC</em>), dans leur <em>version française</em>.
+                        Ce site propose l’administration de l'<strong>échelle 5D-ASC</strong> (<em>Five-Dimensional Altered States of Consciousness</em>, Dittrich A., 1985, 2010) ainsi que de ses <strong>11 sous-échelles OAV</strong> (ou <em>11D-ASC</em>, Studerus et al., 2010), dans leur <em>version française</em>.
                     </p>
                     <p><br>
-                        La traduction, l’adaptation et la validation psychométrique de cette version ont été réalisées par l’équipe <strong>PSYCOMADD</strong> (Psychiatrie, Comorbidités et Addictions) du CHU Paul Brousse, <strong>Assistance Publique - Hôpitaux de Paris</strong>.
+                        La traduction, l’adaptation et la validation psychométrique de cette version ont été réalisées par E. Kervadec, P. Mathieu, XXX
                     </p>
                     
                     <p><br>
@@ -468,8 +491,10 @@
                         <strong>Usage :</strong> Cette version est proposée dans un cadre exploratoire, d’auto-évaluation ou de recherche. Elle ne constitue pas un outil de diagnostic clinique.
                     </p>
                     <p><br>
-                        <strong>Instructions :</strong> L’objectif de ce questionnaire est d’évaluer la modification de l’état de conscience lors de votre expérience. Pour cela, vous devez coter les différentes affirmations suivantes sur une échelle de 0 à 100 : 0 représentant une absence de modification de l’état de conscience par rapport à votre état de base (i.e. Non, pas plus que d’habitude) et 100 représentant une modification majeure de l’état de conscience par rapport à votre état de base (i.e. Oui, bien plus que d’habitude).
-                    </p>
+                        <strong>Instructions :</strong> L’objectif de ce questionnaire est d’évaluer la modification de l’état de conscience lors de votre expérience – par rapport à votre état de conscience habituel. Pour cela, vous devez évaluer les différentes affirmations suivantes sur une échelle de 0 à 100 : 0 représentant une absence de modification de l’état de conscience par rapport à votre état de base (i.e.: <strong>Non</strong>, pas plus que d’habitude) et 100 représentant une modification majeure de l’état de conscience par rapport à votre état de base (i.e.: <strong>Oui</strong>, bien plus que d’habitude).
+                    </p><br>
+<p><strong>Veuillez utiliser toutes les graduations intermédiaires pour décrire votre expérience le plus précisément possible.</strong></p>
+                    
                     <p><br>
                         Pour plus d'information sur le questionnaire, voir :
                         <br>
@@ -522,7 +547,6 @@
                         <option value="femme">Femme</option>
                         <option value="homme">Homme</option>
                         <option value="non-binaire">Non-binaire</option>
-                        <option value="autre">Autre</option>
                         <option value="prefer-not-say">Préfère ne pas répondre</option>
                     </select>
                     <div class="error-message" id="genderError">Veuillez sélectionner votre genre.</div>
@@ -534,6 +558,7 @@
                         <option value="">Sélectionnez...</option>
                         <option value="primaire">Éducation primaire</option>
                         <option value="secondaire">Éducation secondaire</option>
+                        <option value="secondaire">BEP/CAP</option>
                         <option value="bac">Baccalauréat</option>
                         <option value="bac+2">Bac+2</option>
                         <option value="licence">Licence (Bac+3)</option>
@@ -571,7 +596,7 @@
     color: #3a4651;
     text-align: justify;">
     <strong>ℹ️</strong> Pour chaque item, vous devez ajuster le curseur pour enregistrer votre réponse. 
-    Lorsque la valeur affichée devient <strong style="color: #90c49c; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">verte</strong>, cela signifie que votre réponse est enregistrée.
+    Lorsque la valeur affichée devient <strong style="color: #90c49c; text-shadow: 1px 1px 2px rgb(255, 255, 255);">verte</strong>, cela signifie que votre réponse est enregistrée.
     Il est toujours possible de revenir en arrière ou de modifier vos réponses. 
 </div>
                 <div id="itemsContainer"></div>
@@ -894,11 +919,11 @@
             
             <!-- Légendes et valeur sur la même ligne -->
             <div class="vas-row">
-                <span class="vas-label left">Non, pas plus que d'habitude<br><small>(0)</small></span>
-                <div class="vas-value" id="value_${item.id}">
-                    ${responses['item_' + item.id] || 0}
-                </div>
-                <span class="vas-label right">Oui, bien plus que d'habitude<br><small>(100)</small></span>
+                <span class="vas-label left"><strong>Non</strong>, pas plus que d'habitude<br><small>(0)</small></span>
+                <div class="vas-value ${responses['item_' + item.id] !== undefined ? 'saved' : ''}" id="value_${item.id}">
+    ${responses['item_' + item.id] || 0}
+</div>
+                <span class="vas-label right"><strong>Oui</strong>, bien plus que d'habitude<br><small>(100)</small></span>
             </div>
         </div>
     </div>
@@ -932,6 +957,10 @@
     const valueElement = document.getElementById(`value_${id}`);
     valueElement.textContent = value;
     valueElement.classList.add('active');
+    valueElement.classList.add('saved'); // Ajouter cette ligne
+    
+    // Sauvegarder la réponse
+    responses['item_' + id] = parseInt(value);
 }
 
         function previousItems() {
@@ -959,9 +988,8 @@
             const items = currentVersion === '5D' ? items5D : items11D;
             
             // Vérifier que toutes les questions ont une réponse ET que les sliders ont été touchés
-const missingResponses = items.filter(item => {
-    const valueElement = document.getElementById('value_' + item.id);
-    return !valueElement || !valueElement.classList.contains('saved');
+            const missingResponses = items.filter(item => {
+    return responses['item_' + item.id] === undefined;
 });
 
 if (missingResponses.length > 0) {
