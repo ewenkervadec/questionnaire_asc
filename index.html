@@ -16,7 +16,7 @@
         body {
             font-family: 'Helvetica', Helvetica, Helvetica, Helvetica, Helvetica;
             line-height: 1.6;
-            color: #2c3e50;
+            color: #3b434c;
             background: linear-gradient(0deg, #f5f5f5 0%, #ffffff 100%);
             
             min-height: 100vh;
@@ -31,7 +31,7 @@
     min-height: auto;
     padding: 2rem; /* padding intérieur sur tous les côtés */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-radius: 50px;
+    border-radius: 75px;
 }
 
 /* Ajustement spécifique pour les petits écrans */
@@ -42,24 +42,64 @@
     }
 }
 
-
-        .header {
-    background-image: url('fond.png');
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-
+.header {
+    position: relative;
+    z-index: 1;
     color: white;
-    padding: 2rem;
+    padding: 1rem;
     text-align: center;
+    border-radius: 50px;
+    overflow: hidden;
     border: 0.5px solid #ffffff;
-    border-radius: 50px 50px 50px 50px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    background: none;
 }
 
-@media (max-width: 768px) {
-    .header {
-        background-size: cover;
+.header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 50px;
+    filter: blur(20px);
+    background: radial-gradient(circle at 20% 30%, #ffdfa2 0%, transparent 30%),
+                radial-gradient(circle at 40% 40%, #d8aec9 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, #b5c8e1 10%, transparent 30%),
+                radial-gradient(circle at 60% 20%, #c1e6cc 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, #eaba96 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, #eed4bf 0%, transparent 30%),
+                radial-gradient(circle at 90% 90%, #ffdfa2 0%, transparent 30%),
+                radial-gradient(circle at 90% 40%, #d8aec9 0%, transparent 30%),
+                radial-gradient(circle at 0% 40%, #d8aec9 10%, transparent 30%),
+                radial-gradient(circle at 70% 70%, #b5c8e1 20%, transparent 30%),
+                radial-gradient(circle at 60% 20%, #c1e6cc 0%, transparent 30%),
+                radial-gradient(circle at 10% 90%, #c1e6cc 10%, transparent 30%),
+                radial-gradient(circle at 10% 10%, #eaba96 0%, transparent 30%);
+    animation: blobWiggle 13s ease-in-out infinite;
+    background-size: 170% 170%;
+}
+
+.header h1,
+.header p {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes blobWiggle {
+    0% {
+        background-position: 0% 0%;
+    }
+    25% {
+        background-position: 50% 50%;
+    }
+    50% {
+        background-position: 100% 0%;
+    }
+    75% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
     }
 }
 
@@ -82,7 +122,7 @@
             background: #f8f9fa;
             border-radius: 50px;
             padding: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: -1rem;
             text-align: center;
         }
 
@@ -110,29 +150,117 @@
             transition: all 0.3s ease;
             min-width: 200px;
         }
-        .version-btn:hover, .version-btn.active {
-    background-image: url('bouton.png'); /* ← ton image ici */
-    background-size: 100% 100%; /* Étirement total */
-    background-position: center;
-    background-repeat: no-repeat;
 
-    border: 2px solid white;
+        .version-btn:hover,
+.version-btn.active {
+    position: relative;
     color: white;
+    border: 2px solid white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    overflow: hidden;
+    z-index: 1;
 }
 
-/* Optionnel : pour les petits écrans, utilise "cover" si nécessaire */
+.version-btn:hover::before,
+.version-btn.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    filter: blur(12px);
+    background: radial-gradient(circle at 20% 30%, #ffdfa2 0%, transparent 30%),
+                radial-gradient(circle at 40% 40%, #d8aec9 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, #b5c8e1 10%, transparent 30%),
+                radial-gradient(circle at 60% 20%, #c1e6cc 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, #eaba96 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, #eed4bf 0%, transparent 30%),
+                radial-gradient(circle at 90% 90%, #ffdfa2 0%, transparent 30%),
+                radial-gradient(circle at 90% 40%, #d8aec9 0%, transparent 30%),
+                radial-gradient(circle at 0% 40%, #d8aec9 10%, transparent 30%),
+                radial-gradient(circle at 70% 70%, #b5c8e1 20%, transparent 30%),
+                radial-gradient(circle at 60% 20%, #c1e6cc 0%, transparent 30%),
+                radial-gradient(circle at 10% 90%, #c1e6cc 10%, transparent 30%),
+                radial-gradient(circle at 10% 10%, #eaba96 0%, transparent 30%);
+    background-size: 200% 200%;
+    animation: blobWiggle 12s ease-in-out infinite;
+}
+
+.version-btn:hover span,
+.version-btn.active span {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes blobWiggle {
+    0%   { background-position: 0% 0%; }
+    25%  { background-position: 50% 50%; }
+    50%  { background-position: 100% 0%; }
+    75%  { background-position: 50% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
 @media (max-width: 768px) {
     .version-btn:hover, .version-btn.active {
         background-size: cover;
     }
 }
 
+.pdf-btn {
+    background: white;
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 280px;
+    margin-top: 1.5rem;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.pdf-btn:hover {
+    position: relative;
+    color: white;
+    border: 2px solid white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.pdf-btn:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    filter: blur(12px);
+    background: radial-gradient(circle at 20% 30%, #ffb3ba 0%, transparent 30%),
+                radial-gradient(circle at 60% 20%, #ff9999 0%, transparent 30%),
+                radial-gradient(circle at 40% 40%, #ff6b6b 0%, transparent 30%),
+                radial-gradient(circle at 80% 80%, #e74c3c 0%, transparent 30%),
+                radial-gradient(circle at 10% 90%, #dc3545 10%, transparent 30%);
+    background-size: 200% 200%;
+    animation: blobWiggle 12s ease-in-out infinite;
+}
+
+.pdf-btn:hover span {
+    position: relative;
+    z-index: 1;
+}
+
+
+
         .progress-bar {
             background: #e9ecef;
             height: 8px;
             border-radius: 50px;
+            margin-top: 1rem;
             margin-bottom: 2rem;
             border: 0.5px solid #ffffff;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -198,7 +326,7 @@
         .item-question {
             font-size: 1.1rem;
             margin-bottom: 1rem;
-            color: #3a4651;
+            color: #44484d;
             line-height: 1.5;
         }
 
@@ -208,26 +336,41 @@
         }
 
         .vas-slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #e9ecef;
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+}
 
-        .vas-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(90deg, #7c90e8, #7b589e);
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
+.vas-slider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #7c90e8, #7b589e);
+    width: var(--slider-progress, 0%);
+    transition: width 0.2s ease;
+    z-index: 0;
+}
+.vas-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #7c90e8, #7b589e);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
 
         .vas-slider::-webkit-slider-thumb:hover {
             transform: scale(1.5);
@@ -265,13 +408,13 @@
     border: 1px solid #dee2e6;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin: 0 auto;
-    color: #dee2e6;         /* Gris clair par défaut */
+    color: #dee2e6;         
     background-color: white;
     transition: all 0.3s ease;
 }
 
 .vas-value.active {
-    background-color: #abdbb9; /* Vert bootstrap */
+    background-color: #abdbb9; 
     color: white;
     border-color: #90c49c;
 }
@@ -307,6 +450,30 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
+        @font-face {
+    font-family: 'Euclid Circular B Bold';
+    src: url('Euclid Circular B Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Circular B Medium';
+    src: url('Euclid Circular B Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+@font-face {
+    font-family: 'Organo';
+    src: url('Organo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
         .nav-btn:hover:not(:disabled) {
             background: #5a6fd8;
@@ -380,7 +547,12 @@
             margin-top: 0.25rem;
             display: none;
         }
-
+        @font-face {
+    font-family: 'Satoshi';
+    src: url('fonts/Satoshi-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
         @media (max-width: 768px) {
             .container {
                 margin: 0;
@@ -411,51 +583,74 @@
     </style>
 </head>
 <body>
+
+
+    
     <div class="container">
         <div class="header">
             <h1 style="margin-bottom: 0.5rem;">
-                <span class="satoshi-title" style="
+                <!-- Premier élément : "Questionnaire" avec cadre circulaire blanc -->
+                <div style="
                     display: inline-block;
-                    background: white;
-                    color: #343a40;
-                    border: 1px solid #dee2e6;
+                    background: rgba(255, 255, 255, 0.339);
+                    border: 4px solid white;
                     border-radius: 50px;
-                    padding: 0.5rem 1rem;
-                    font-size: 2rem;
-                    font-weight: 700;">
-                    Questionnaire 5D – ASC
-                </span>
+                    padding: 0.5rem 2rem;
+                    margin-top: 0.5rem;
+                    margin-bottom: 0.5rem;
+                    backdrop-filter: blur(10px);">
+                    <span style="
+                        color: white;
+                        font-size: 2rem;
+                        font-weight: 900;
+                        font-family: 'Satoshi', sans-serif;">
+                        Questionnaire
+                    </span>
+                </div>
+                
+                <!-- Deuxième élément : "5D-ASC" en gris foncé sans fond -->
+                <div style="margin-top: 0.3rem; margin-bottom: -1rem;">
+                    <span style="
+                        color: #343a40;
+                        font-size: 2.8rem;
+                        font-weight: 900;
+                        
+                        font-family: 'Euclid Circular B Bold', sans-serif;
+                        text-shadow: 1px 1px 3px rgba(255,255,255,0.8);">
+                        5D - ASC
+                    </span>
+                </div>
             
                 <!-- Trois petits cercles décoratifs -->
-                <div style="
+                <!-- <div style="
                     display: flex;
                     justify-content: center;
                     gap: 1rem;
-                    margin: 2rem 0 0rem 0;">
+                    margin: 0.8rem 0 0rem 0;">
                     <span style="
-                        width: 15px;
-                        height: 15px;
+                        width: 10px;
+                        height: 10px;
                         background: white;
                         border: 1px solid #dee2e6;
                         border-radius: 50%;
                         display: inline-block;"></span>
                     <span style="
-                        width: 15px;
-                        height: 15px;
+                        width: 10px;
+                        height: 10px;
                         background: white;
                         border: 1px solid #dee2e6;
                         border-radius: 50%;
                         display: inline-block;"></span>
                     <span style="
-                        width: 15px;
-                        height: 15px;
+                        width: 10px;
+                        height: 10px;
                         background: white;
                         border: 1px solid #dee2e6;
                         border-radius: 50%;
                         display: inline-block;"></span>
-                </div>
+                </div> -->
             
-                <span style="font-weight: normal; font-style: normal; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                <span style="font-family: Euclid Circular B Medium; font-style: normal; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
                     Échelle à 5 Dimensions pour États Altérés de Conscience <br>
                 </span>
             </h1>
@@ -487,20 +682,28 @@
                     <p><br>
                         <strong>Confidentialité :</strong> Aucune donnée n’est collectée, transmise ou stockée par ce site. Vos réponses ne quittent jamais votre appareil. Un fichier Excel est généré localement à la fin du questionnaire.
                     </p>
-                    <p>
-                        <strong>Usage :</strong> Cette version est proposée dans un cadre exploratoire, d’auto-évaluation ou de recherche. Elle ne constitue pas un outil de diagnostic clinique.
-                    </p>
                     <p><br>
                         <strong>Instructions :</strong> L’objectif de ce questionnaire est d’évaluer la modification de l’état de conscience lors de votre expérience – par rapport à votre état de conscience habituel. Pour cela, vous devez évaluer les différentes affirmations suivantes sur une échelle de 0 à 100 : 0 représentant une absence de modification de l’état de conscience par rapport à votre état de base (i.e.: <strong>Non</strong>, pas plus que d’habitude) et 100 représentant une modification majeure de l’état de conscience par rapport à votre état de base (i.e.: <strong>Oui</strong>, bien plus que d’habitude).
                     </p><br>
 <p><strong>Veuillez utiliser toutes les graduations intermédiaires pour décrire votre expérience le plus précisément possible.</strong></p>
                     
                     <p><br>
-                        Pour plus d'information sur le questionnaire, voir :
-                        <br>
-                        <strong>Kervadec et al., 2025.</strong> <em>Psychometric Validation of the French Version of the Five-Dimensional Altered States of Consciousness Questionnaire (5D-ASC) and Associated 11 OAV Subscales</em>. 
-                    </p>
-
+                        Pour citer le travail d’adaptation en français :<br><br>
+                        <strong>Kervadec et al.</strong>, (2025) <em>Psychometric Validation of the French Version of the Five-Dimensional Altered States of Consciousness Questionnaire (5D-ASC) and Associated 11 OAV Subscales.</em>
+                        <br><br>
+                        <p>
+                            Pour citer les travaux originaux concernant le questionnaire : 
+                            <br><br>
+                            <strong>Dittrich et al.</strong>, (2010) <em>5D-ASC: Questionnaire for the Assessment of Altered States of Consciousness. A Short Introduction.</em> 
+                            Zurich, Switzerland: 
+                            <a href="https://www.google.com/url?..." target="_blank" rel="noopener noreferrer" style="color: #4b0082;">
+                            PSIN PLUS</a>.
+                            <br><br>
+                            <strong>Studerus et al.</strong>, (2010) <em>Psychometric evaluation of the altered states of consciousness rating scale (OAV).</em> 
+                            <a href="https://doi.org/10.1371/journal.pone.0012412" target="_blank" rel="noopener noreferrer" style="color: #4b0082;">
+                            PLoS ONE, 5(8): e12412
+                            </a>.
+                        </p>
                     
                 </div>
             </div>
@@ -519,12 +722,17 @@
                     <h2 class="satoshi-title">Choisissez votre version :</h2>
                     <div class="version-buttons">
                         <button class="version-btn" onclick="selectVersion('5D', 94)">
-                            5D-ASC
-                            <br><small>Version complète - 94 items</small>
+                            <span>5D-ASC
+                            <br><small>Version complète - 94 items</small></span>
                         </button>
                         <button class="version-btn" onclick="selectVersion('11D', 42)">
-                            11D-ASC
-                            <br><small>Version courte - 42 items</small>
+                            <span>11D-ASC
+                            <br><small>Version courte - 42 items</small></span>
+                        </button>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="pdf-btn" onclick="downloadPDF()">
+                            <span>📄 Téléchargez la version PDF</span>
                         </button>
                     </div>
                 </div>
@@ -595,7 +803,7 @@
     font-size: 0.95rem;
     color: #3a4651;
     text-align: justify;">
-    <strong>ℹ️</strong> Pour chaque item, vous devez ajuster le curseur pour enregistrer votre réponse. 
+    <strong>ℹ️</strong> Pour chaque item, vous devez cliquer sur le curseur pour enregistrer votre réponse, même si vous souhaitez indiquer la valeur 0.  
     Lorsque la valeur affichée devient <strong style="color: #90c49c; text-shadow: 1px 1px 2px rgb(255, 255, 255);">verte</strong>, cela signifie que votre réponse est enregistrée.
     Il est toujours possible de revenir en arrière ou de modifier vos réponses. 
 </div>
@@ -864,6 +1072,11 @@
             return isValid;
         }
 
+        function downloadPDF() {
+    // Ouvrir le fichier PDF dans un nouvel onglet
+    window.open('VersionPapier.pdf', '_blank');
+}
+
         function startQuestionnaire() {
             if (!validateDemographics()) {
                 return;
@@ -910,12 +1123,13 @@
         <div class="vas-container">
             <!-- Barre VAS -->
             <input type="range" 
-                    class="vas-slider" 
-                    id="item_${item.id}" 
-                    min="0" 
-                    max="100" 
-                    value="${responses['item_' + item.id] || 0}"
-                    oninput="updateVasValue(${item.id}, this.value)">
+        class="vas-slider" 
+        id="item_${item.id}" 
+        min="0" 
+        max="100" 
+        value="${responses['item_' + item.id] || 0}"
+        oninput="updateVasValue(${item.id}, this.value)"
+        onclick="updateVasValue(${item.id}, this.value)">
             
             <!-- Légendes et valeur sur la même ligne -->
             <div class="vas-row">
@@ -931,10 +1145,20 @@
             });
             
             container.innerHTML = html;
+
+            // Initialiser les jauges pour les valeurs déjà sauvegardées
+currentItems.forEach(item => {
+    const savedValue = responses['item_' + item.id];
+    if (savedValue !== undefined) {
+        const sliderElement = document.getElementById(`item_${item.id}`);
+        const progress = (savedValue / 100) * 100;
+        sliderElement.style.setProperty('--slider-progress', `${progress}%`);
+    }
+});
             
             // Mise à jour du compteur de progression
             const progress = document.getElementById('itemsProgress');
-            progress.textContent = `Questions ${startIndex + 1}-${endIndex} sur ${items.length}`;
+            progress.textContent = `${startIndex + 1}-${endIndex} sur ${items.length}`;
             
             // Mise à jour des boutons de navigation
             const prevBtn = document.querySelector('.navigation .nav-btn.secondary');
@@ -955,12 +1179,24 @@
 
         function updateVasValue(id, value) {
     const valueElement = document.getElementById(`value_${id}`);
+    const sliderElement = document.getElementById(`item_${id}`);
+    
     valueElement.textContent = value;
     valueElement.classList.add('active');
-    valueElement.classList.add('saved'); // Ajouter cette ligne
+    valueElement.classList.add('saved');
     
-    // Sauvegarder la réponse
+    // Mettre à jour la jauge
+    const progress = (value / 100) * 100;
+    sliderElement.style.setProperty('--slider-progress', `${progress}%`);
+    
+    // Sauvegarder la réponse (même si c'est 0)
     responses['item_' + id] = parseInt(value);
+    
+    // Forcer une mise à jour visuelle
+    setTimeout(() => {
+        valueElement.classList.remove('active');
+        valueElement.classList.add('saved');
+    }, 200);
 }
 
         function previousItems() {
